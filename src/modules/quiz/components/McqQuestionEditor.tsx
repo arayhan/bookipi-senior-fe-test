@@ -29,7 +29,8 @@ export const McqQuestionEditor = ({ question }: Props) => {
   const removeOption = (index: number) => {
     if (question.options.length <= 2) return;
     const next = question.options.filter((_, i) => i !== index);
-    update({ options: next });
+    const correctIndex = question.correctIndex >= next.length ? next.length - 1 : question.correctIndex;
+    update({ options: next, correctIndex });
   };
 
   return (
