@@ -28,6 +28,7 @@ const attemptSlice = createSlice({
       state.quizId = action.payload.quizId;
       state.currentIndex = 0;
       state.answers = {};
+      state.antiCheat = { tabSwitches: 0, pastes: 0, events: [] };
       state.lastResult = null;
     },
     setAnswer(state, action: PayloadAction<{ questionId: number; value: string }>) {
