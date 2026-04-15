@@ -1,16 +1,18 @@
 import { Link, useParams } from "react-router-dom";
 import { LuHouse, LuRotateCcw } from "react-icons/lu";
-import { useAppSelector } from "@/app/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { Button } from "@/components/ui/Button";
 import { ErrorView } from "@/components/feedback/ErrorView";
 import { LoadingView } from "@/components/feedback/LoadingView";
 import { useGetQuizQuery } from "@/modules/quiz/quiz.query";
+import { attemptActions } from "@/modules/attempt/attempt.slice";
 import { ResultSummary } from "@/modules/attempt/components/ResultSummary";
 import { AntiCheatSummary } from "@/modules/attempt/components/AntiCheatSummary";
 import type { PlayerQuestion } from "@/modules/attempt/attempt.model";
 
 export const QuizResultPage = () => {
   const { quizId } = useParams<{ quizId: string; attemptId: string }>();
+  const dispatch = useAppDispatch();
   const result = useAppSelector((s) => s.attempt.lastResult);
   const answers = useAppSelector((s) => s.attempt.answers);
   const antiCheat = useAppSelector((s) => s.attempt.antiCheat);
@@ -54,7 +56,10 @@ export const QuizResultPage = () => {
           </Button>
         </Link>
         <Link to={`/play/${quizId}`}>
-          <Button variant="secondary">
+          <Button
+            variant="secondary"
+            onClick={() => dispatch(attemptActions.resetAttempt())}
+          >
             <LuRotateCcw /> Retake
           </Button>
         </Link>
