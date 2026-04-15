@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { LoadingView } from "@/components/feedback/LoadingView";
 import { ErrorView } from "@/components/feedback/ErrorView";
 import {
-  useStartAttemptMutation,
   useSaveAnswerMutation,
+  useStartAttemptMutation,
   useSubmitAttemptMutation,
 } from "@/modules/attempt/attempt.query";
 import { attemptActions } from "@/modules/attempt/attempt.slice";
@@ -13,15 +13,17 @@ import { useAntiCheat } from "@/modules/attempt/hooks/useAntiCheat";
 import { ProgressBar } from "@/modules/attempt/components/ProgressBar";
 import { QuestionCard } from "@/modules/attempt/components/QuestionCard";
 import { NavControls } from "@/modules/attempt/components/NavControls";
-import type { Attempt } from "@/modules/attempt/attempt.model";
 
 export const QuizPlayerPage = () => {
   const { quizId: quizIdParam } = useParams<{ quizId: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const startedRef = useRef(false);
-  const [attempt, setAttempt] = useState<Attempt | null>(null);
-  const startMutation = useStartAttemptMutation();
+
+  const {
+    mutate: startAttempt,
+    data: attempt,
+    isError: startFailed,
+  } = useStartAttemptMutation();
   const saveAnswerMutation = useSaveAnswerMutation();
   const submitMutation = useSubmitAttemptMutation();
 
@@ -31,39 +33,34 @@ export const QuizPlayerPage = () => {
   const { reportPaste } = useAntiCheat(attempt?.id ?? null);
 
   useEffect(() => {
-    if (!quizIdParam) return;
     const quizId = Number(quizIdParam);
     if (!Number.isInteger(quizId) || quizId <= 0) return;
-    if (startedRef.current) return;
-    startedRef.current = true;
-
-    startMutation.mutate(quizId, {
-      onSuccess: (data) => {
-        setAttempt(data);
-        dispatch(attemptActions.startAttempt(data));
-      },
+    startAttempt(quizId, {
+      onSuccess: (data) => dispatch(attemptActions.startAttempt(data)),
     });
-  }, [quizIdParam, startMutation, dispatch]);
+  }, [quizIdParam, startAttempt, dispatch]);
 
-  if (startMutation.isPending || (!attempt && !startMutation.isError)) {
-    return <LoadingView label="Loading quiz..." />;
-  }
-
-  if (startMutation.isError || !attempt) {
+  if (!attempt && startFailed) {
     return (
       <ErrorView
         title="Couldn't start the quiz"
         message="Verify the quiz ID is correct and that the quiz is published."
         onRetry={() => {
-          startedRef.current = false;
-          startMutation.reset();
-          if (quizIdParam) startMutation.mutate(Number(quizIdParam));
+          const quizId = Number(quizIdParam);
+          if (!Number.isInteger(quizId) || quizId <= 0) return;
+          startAttempt(quizId, {
+            onSuccess: (data) => dispatch(attemptActions.startAttempt(data)),
+          });
         }}
       />
     );
   }
 
-  const questions = attempt.quiz.questions;
+  if (!attempt) {
+    return <LoadingView label="Loading quiz..." />;
+  }
+
+  const questions = attempt.quiz.questions ?? [];
   const total = questions.length;
 
   if (total === 0) {
