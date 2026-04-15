@@ -9,6 +9,7 @@ export const useAntiCheat = (attemptId: number | null) => {
 
   useEffect(() => {
     if (!attemptId) return;
+    console.log("[anti-cheat] attached for attempt", attemptId);
 
     const handleBlur = () => {
       dispatch(attemptActions.recordEvent("tab_blur"));
