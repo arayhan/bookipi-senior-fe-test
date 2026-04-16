@@ -1,4 +1,4 @@
-# Quiz Maker — Frontend
+# Quiz Maker - Frontend
 
 A React take-home: build a small quiz, share the ID, take the quiz, see the score with a per-question breakdown and an optional anti-cheat summary. Backend is the provided Node + SQLite service.
 
@@ -30,10 +30,10 @@ npm run preview      # preview the production build
 
 Environment variables (`.env`):
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `VITE_API_BASE_URL` | `http://localhost:4000` | Backend base URL |
-| `VITE_API_TOKEN` | `dev-token` | Sent as `Authorization: Bearer <token>` on every request |
+| Variable            | Default                 | Purpose                                                  |
+| ------------------- | ----------------------- | -------------------------------------------------------- |
+| `VITE_API_BASE_URL` | `http://localhost:4000` | Backend base URL                                         |
+| `VITE_API_TOKEN`    | `dev-token`             | Sent as `Authorization: Bearer <token>` on every request |
 
 ## Architecture decisions
 
@@ -43,8 +43,8 @@ I picked **Vite** over Next-in-SPA-mode. There's nothing to server-render here (
 
 ### State boundary: Redux Toolkit + TanStack Query v5
 
-- **Redux Toolkit** owns *client/UI* state — the builder draft, current question index in the player, and anti-cheat counters.
-- **TanStack Query v5** owns *server* state — quiz creation/publish flow, attempt start, answer save, submit, anti-cheat event POSTs.
+- **Redux Toolkit** owns _client/UI_ state — the builder draft, current question index in the player, and anti-cheat counters.
+- **TanStack Query v5** owns _server_ state — quiz creation/publish flow, attempt start, answer save, submit, anti-cheat event POSTs.
 - I never copy server payloads into Redux. There's a single source of truth per piece of state.
 
 This is what the spec means by "Tanstack Query v5 is required" — it's the right tool for server state and Redux is the right tool for everything else. Keeping them in their lanes avoids the classic "Redux as a database" anti-pattern.
@@ -119,13 +119,13 @@ What I deliberately did **not** do: detect dev-tools open, blur signals on each 
 
 ## Routes
 
-| Path | Page |
-| --- | --- |
-| `/` | Home — published-quiz list + quick "enter quiz ID" form |
-| `/create-quiz` | Create Quiz (shared form UI) |
-| `/edit-quiz/:id` | Edit Quiz (same form UI, pre-filled via `loadFromQuiz`) |
-| `/play/:quizId` | Quiz Player |
-| `/play/:quizId/result/:attemptId` | Result page |
+| Path                              | Page                                                    |
+| --------------------------------- | ------------------------------------------------------- |
+| `/`                               | Home — published-quiz list + quick "enter quiz ID" form |
+| `/create-quiz`                    | Create Quiz (shared form UI)                            |
+| `/edit-quiz/:id`                  | Edit Quiz (same form UI, pre-filled via `loadFromQuiz`) |
+| `/play/:quizId`                   | Quiz Player                                             |
+| `/play/:quizId/result/:attemptId` | Result page                                             |
 
 ## Update quiz
 
