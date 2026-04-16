@@ -51,23 +51,38 @@ This is what the spec means by "Tanstack Query v5 is required" — it's the righ
 
 ### Module-driven folder structure
 
-Each feature owns its full surface in one folder:
+Each feature owns its full surface in one folder. Pages and per-page hooks sit at the module root; sub-features get their own sub-folder:
 
 ```text
-modules/quiz/
-  quiz.model.ts     # types
-  quiz.keys.ts      # query-key factory
-  quiz.service.ts   # axios calls
-  quiz.query.ts     # TanStack Query hooks
-  quiz.slice.ts     # Redux slice
-  quiz.schema.ts    # zod validation
-  components/       # feature-only components
-  pages/            # route pages
+modules/quiz/           # read-only entity module
+  quiz.model.ts         # Quiz / Question / QuestionType
+  quiz.keys.ts          # query-key factory
+  quiz.service.ts       # quizService.{ list, get }
+  quiz.query.ts         # useGetQuizQuery, useGetQuizListQuery
+
+modules/form/           # create + update quiz form
+  form.model.ts         # draft types (DraftMcq/Short/Question, BuilderDraft)
+  form.slice.ts         # Redux slice (draft state + loadFromQuiz)
+  form.schema.ts        # zod validation
+  form.service.ts       # formService.{ createQuiz, updateQuiz, publishQuiz, addQuestion, updateQuestion, deleteQuestion }
+  form.query.ts         # useSaveQuizFlowMutation, useUpdateQuizFlowMutation
+  QuizFormPage.tsx
+  useQuizForm.ts
+  components/
+
+modules/attempt/        # split into player and result sub-features
+  attempt.{model,keys,service,query,slice}.ts
+  player/               # QuizPlayerPage, useQuizPlayer, useAntiCheat + components
+  result/                # QuizResultPage, useQuizResult + components
+  utils/parsePrompt.ts
+
+modules/home/           # published quiz list + ID-entry shortcut
+  HomePage.tsx
+  useHome.ts
+  components/
 ```
 
-The `attempt` (player) module follows the same shape and adds a `hooks/` folder for the anti-cheat hook and a `utils/` folder for the prompt parser.
-
-Cross-feature reusables live in `src/components` (`ui/`, `code/`, `feedback/`, `layout/`, `toast/`).
+Cross-feature reusables live in `src/components/<component>/<Component>.tsx` (one folder per component: `button`, `card`, `text-field`, `text-area`, `spinner`, `layout`, `toast`, `feedback`, `code`).
 
 ### Single error path: axios interceptor → toast
 
@@ -106,22 +121,33 @@ What I deliberately did **not** do: detect dev-tools open, blur signals on each 
 
 | Path | Page |
 | --- | --- |
-| `/` | Home — entry cards for Create Quiz and Player |
-| `/create-quiz` | Create Quiz |
-| `/play` | Quiz ID input |
+| `/` | Home — published-quiz list + quick "enter quiz ID" form |
+| `/create-quiz` | Create Quiz (shared form UI) |
+| `/edit-quiz/:id` | Edit Quiz (same form UI, pre-filled via `loadFromQuiz`) |
 | `/play/:quizId` | Quiz Player |
 | `/play/:quizId/result/:attemptId` | Result page |
+
+## Update quiz
+
+The home page shows every quiz the backend knows about via `GET /quizzes`. Each card has an edit pencil that routes to `/edit-quiz/:id`, reusing the same `QuizFormPage` as create. The form hydrates from `GET /quizzes/:id`, stamping each draft question with its server id so the save path can do a proper per-question diff:
+
+1. `PATCH /quizzes/:id` — metadata (title, description)
+2. Existing questions not present in the draft → `DELETE /questions/:id`
+3. Draft questions with a server id → `PATCH /questions/:id`
+4. Draft questions without a server id → `POST /quizzes/:id/questions`
+
+On success, both `quizKeys.detail(id)` and `quizKeys.list()` are invalidated so the next visit sees fresh data.
 
 ## Out of scope (deliberate)
 
 The spec says "avoid extra features beyond requirements." I've held the line on:
 
-- Quiz listing page (`GET /quizzes` exists, but spec UX is "input quizId").
-- Editing/deleting quizzes after save.
+- Deleting quizzes (the backend supports `DELETE` but the spec doesn't call for a UI).
 - Time limits (`timeLimitSeconds`).
 - The backend's `code` question type (spec only requires MCQ + short).
 - Auth UI — token is fixed via `.env`.
-- Tests — happy to add focused vitest coverage for the slice reducers and the prompt parser if asked. Skipped here so the architecture story stays the focal point.
+- Optimistic cache updates on mutations — straight invalidation is enough at this size.
+- Route-level code splitting — noted as future work (bundle is ~1.1 MB, dominated by `react-syntax-highlighter`).
 
 ## Tech stack
 
@@ -129,8 +155,19 @@ The spec says "avoid extra features beyond requirements." I've held the line on:
 - Redux Toolkit, react-redux
 - TanStack Query v5, axios
 - React Router v6
-- Tailwind CSS v3, clsx, tailwind-merge
+- Tailwind CSS v4 (`@tailwindcss/postcss`, theme declared in `src/index.css` via `@theme`), clsx, tailwind-merge v3
 - zod (final draft validation before save; the Builder uses controlled Redux state instead of react-hook-form because the form is split across many components and the data is the application state, not a transient form payload)
 - react-hot-toast (wrapped under `components/toast`)
 - react-icons
 - react-syntax-highlighter (Prism)
+- vitest (schema, slice, and `parsePrompt` unit tests)
+
+## Iteration notes
+
+A bit of transparency about the git history, which is refactor-heavy:
+
+- The module layout went through several passes — `/ui` primitives were flattened to per-component folders, `pages/`/`hooks/` subfolders were collapsed into module roots, the `CreateQuiz*` identifiers were renamed to `QuizForm*`, and the form data layer was eventually split out of `modules/quiz/` into its own `modules/form/` (quiz is now a read-only entity module; form owns create + update).
+- Early in the project I rewrote history once to rename an `AppShell` component to `AppLayout` at the commit it was introduced. That required a `--force-with-lease` push to main. Avoided on every subsequent change.
+- After the first pass there was no force push; every later restructure is a normal fast-forward with `git mv` preserving file similarity (visible in `git log --follow`).
+
+If you want the short version of where things landed, read the Architecture section above and open `src/` — both reflect the final state, not the intermediate ones.
