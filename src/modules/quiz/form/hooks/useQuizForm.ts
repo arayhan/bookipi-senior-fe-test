@@ -1,15 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { toast } from "@/components/toast/toast";
 import { quizFormActions } from "@/modules/quiz/form/form.slice";
-import { useSaveQuizFlowMutation } from "@/modules/quiz/quiz.query";
 import { validateDraft } from "@/modules/quiz/form/form.schema";
+import {
+  useGetQuizQuery,
+  useSaveQuizFlowMutation,
+  useUpdateQuizFlowMutation,
+} from "@/modules/quiz/quiz.query";
 
 export const useQuizForm = () => {
+  const { id } = useParams<{ id: string }>();
+  const mode: "create" | "edit" = id ? "edit" : "create";
+
   const dispatch = useAppDispatch();
   const draft = useAppSelector((s) => s.quizForm);
-  const saveMutation = useSaveQuizFlowMutation();
+
+  const quizQuery = useGetQuizQuery(mode === "edit" ? id : undefined);
+  const createMutation = useSaveQuizFlowMutation();
+  const updateMutation = useUpdateQuizFlowMutation();
+
   const [validationError, setValidationError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (mode === "create") {
+      dispatch(quizFormActions.resetDraft());
+      createMutation.reset();
+      updateMutation.reset();
+      setValidationError(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode === "edit" && quizQuery.data) {
+      dispatch(quizFormActions.loadFromQuiz(quizQuery.data));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, quizQuery.data?.id]);
 
   const save = () => {
     setValidationError(null);
@@ -21,24 +50,37 @@ export const useQuizForm = () => {
       toast.error(msg);
       return;
     }
-    saveMutation.mutate(draft, {
-      onSuccess: (quiz) => {
-        toast.success(`Quiz "${quiz.title}" published`);
-      },
-    });
+    if (mode === "create") {
+      createMutation.mutate(draft, {
+        onSuccess: (quiz) => toast.success(`Quiz "${quiz.title}" published`),
+      });
+    } else if (id) {
+      updateMutation.mutate(
+        { id: Number(id), draft },
+        {
+          onSuccess: (quiz) => toast.success(`Quiz "${quiz.title}" updated`),
+        },
+      );
+    }
   };
 
   const reset = () => {
-    if (saveMutation.isPending) return;
+    if (createMutation.isPending || updateMutation.isPending) return;
     dispatch(quizFormActions.resetDraft());
-    saveMutation.reset();
+    createMutation.reset();
+    updateMutation.reset();
     setValidationError(null);
   };
 
+  const savedQuiz = mode === "create" ? createMutation.data : updateMutation.data;
+
   return {
+    mode,
     draft,
-    savedQuiz: saveMutation.data,
-    isSaving: saveMutation.isPending,
+    isLoadingQuiz: mode === "edit" && quizQuery.isLoading,
+    isQuizError: mode === "edit" && quizQuery.isError,
+    savedQuiz,
+    isSaving: createMutation.isPending || updateMutation.isPending,
     validationError,
     save,
     reset,

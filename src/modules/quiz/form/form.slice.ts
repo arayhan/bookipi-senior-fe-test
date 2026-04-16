@@ -1,5 +1,14 @@
 import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
-import type { BuilderDraft, DraftQuestion, QuestionType } from "@/modules/quiz/quiz.model";
+import type {
+  BuilderDraft,
+  DraftMcqQuestion,
+  DraftQuestion,
+  DraftShortQuestion,
+  Question,
+  QuestionType,
+  Quiz,
+} from "@/modules/quiz/quiz.model";
+import { parsePrompt } from "@/modules/attempt/utils/parsePrompt";
 
 const makeMcq = (): DraftQuestion => ({
   localId: nanoid(),
@@ -17,6 +26,30 @@ const makeShort = (): DraftQuestion => ({
   codeSnippet: "",
   correctAnswer: "",
 });
+
+const toDraftQuestion = (q: Question): DraftQuestion => {
+  const { text, code } = parsePrompt(q.prompt);
+  const base = {
+    localId: nanoid(),
+    prompt: text,
+    codeSnippet: code ?? "",
+  };
+  if (q.type === "mcq") {
+    const mcq: DraftMcqQuestion = {
+      ...base,
+      type: "mcq",
+      options: q.options ?? ["", ""],
+      correctIndex: typeof q.correctAnswer === "number" ? q.correctAnswer : 0,
+    };
+    return mcq;
+  }
+  const short: DraftShortQuestion = {
+    ...base,
+    type: "short",
+    correctAnswer: typeof q.correctAnswer === "string" ? q.correctAnswer : "",
+  };
+  return short;
+};
 
 const initialState: BuilderDraft = {
   title: "",
@@ -56,6 +89,15 @@ const quizFormSlice = createSlice({
       const next = [...state.questions];
       [next[idx], next[swapWith]] = [next[swapWith], next[idx]];
       state.questions = next;
+    },
+    loadFromQuiz(_state, action: PayloadAction<Quiz & { questions: Question[] }>) {
+      const quiz = action.payload;
+      const sorted = [...quiz.questions].sort((a, b) => a.position - b.position);
+      return {
+        title: quiz.title,
+        description: quiz.description,
+        questions: sorted.map(toDraftQuestion),
+      };
     },
     resetDraft() {
       return initialState;

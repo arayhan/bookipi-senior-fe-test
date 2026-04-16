@@ -43,6 +43,27 @@ export const useSaveQuizFlowMutation = () =>
     },
   });
 
+export const useUpdateQuizFlowMutation = () =>
+  useMutation<Quiz, Error, { id: number; draft: BuilderDraft }>({
+    mutationFn: async ({ id, draft }) => {
+      await quizService.update({
+        id,
+        title: draft.title,
+        description: draft.description,
+      });
+      const existing = await quizService.get({ id });
+      for (const q of existing.questions) {
+        await quizService.deleteQuestion({ id: q.id });
+      }
+      const payloads = draftToQuestionPayloads(draft);
+      for (const payload of payloads) {
+        await quizService.addQuestion({ quizId: id, ...payload });
+      }
+      const { questions: _questions, ...quiz } = await quizService.get({ id });
+      return quiz;
+    },
+  });
+
 export const useGetQuizQuery = (quizId: number | string | undefined) =>
   useQuery({
     queryKey: quizId ? quizKeys.detail(quizId) : quizKeys.detail("none"),

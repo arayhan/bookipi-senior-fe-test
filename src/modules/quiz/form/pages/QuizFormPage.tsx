@@ -1,6 +1,8 @@
 import { LuSave } from "react-icons/lu";
 import { Button } from "@/components/button/Button";
 import { Card, CardBody, CardHeader } from "@/components/card/Card";
+import { LoadingView } from "@/components/feedback/LoadingView";
+import { ErrorView } from "@/components/feedback/ErrorView";
 import { QuizMetadataForm } from "@/modules/quiz/form/components/QuizMetadataForm";
 import { QuestionList } from "@/modules/quiz/form/components/QuestionList";
 import { AddQuestionMenu } from "@/modules/quiz/form/components/AddQuestionMenu";
@@ -10,18 +12,27 @@ import { useQuizForm } from "@/modules/quiz/form/hooks/useQuizForm";
 export const QuizFormPage = () => {
   const quizForm = useQuizForm();
 
+  if (quizForm.isLoadingQuiz) return <LoadingView label="Loading quiz..." />;
+  if (quizForm.isQuizError) {
+    return <ErrorView title="Couldn't load quiz" message="Try refreshing." />;
+  }
+
+  const isEdit = quizForm.mode === "edit";
+  const title = isEdit ? "Edit Quiz" : "Create Quiz";
+  const description = isEdit
+    ? "Update the metadata and questions. Saving replaces the question set."
+    : "Create a quiz with multiple-choice and short-answer questions. Saving will publish it so it can be taken immediately.";
+  const saveLabel = isEdit ? "Update quiz" : "Save quiz";
+
   return (
     <div className="flex flex-col gap-6">
       <header className="flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Create Quiz</h1>
-          <p className="text-sm text-slate-600">
-            Create a quiz with multiple-choice and short-answer questions. Saving will publish it
-            so it can be taken immediately.
-          </p>
+          <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+          <p className="text-sm text-slate-600">{description}</p>
         </div>
         <div className="flex items-center gap-2">
-          {quizForm.savedQuiz && (
+          {quizForm.savedQuiz && !isEdit && (
             <Button variant="ghost" onClick={quizForm.reset}>
               Start a new quiz
             </Button>
@@ -29,14 +40,14 @@ export const QuizFormPage = () => {
           <Button
             onClick={quizForm.save}
             loading={quizForm.isSaving}
-            disabled={Boolean(quizForm.savedQuiz)}
+            disabled={Boolean(quizForm.savedQuiz) && !isEdit}
           >
-            <LuSave /> Save quiz
+            <LuSave /> {saveLabel}
           </Button>
         </div>
       </header>
 
-      {quizForm.savedQuiz && <SaveResultPanel quizId={quizForm.savedQuiz.id} />}
+      {quizForm.savedQuiz && !isEdit && <SaveResultPanel quizId={quizForm.savedQuiz.id} />}
 
       <Card>
         <CardHeader>
