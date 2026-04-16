@@ -7,7 +7,7 @@ import {
   useSubmitAttemptMutation,
 } from "@/modules/attempt/attempt.query";
 import { attemptActions } from "@/modules/attempt/attempt.slice";
-import { useAntiCheat } from "@/modules/attempt/hooks/useAntiCheat";
+import { useAntiCheat } from "@/modules/attempt/player/useAntiCheat";
 
 export const useQuizPlayer = () => {
   const { quizId: quizIdParam } = useParams<{ quizId: string }>();

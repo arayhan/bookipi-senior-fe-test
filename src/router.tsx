@@ -2,8 +2,8 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { HomePage } from "@/modules/home/HomePage";
 import { QuizFormPage } from "@/modules/form/QuizFormPage";
-import { QuizPlayerPage } from "@/modules/attempt/QuizPlayerPage";
-import { QuizResultPage } from "@/modules/attempt/QuizResultPage";
+import { QuizPlayerPage } from "@/modules/attempt/player/QuizPlayerPage";
+import { QuizResultPage } from "@/modules/attempt/result/QuizResultPage";
 
 export const router = createBrowserRouter([
   {

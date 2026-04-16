@@ -1,9 +1,9 @@
 import { LoadingView } from "@/components/feedback/LoadingView";
 import { ErrorView } from "@/components/feedback/ErrorView";
-import { ProgressBar } from "@/modules/attempt/components/ProgressBar";
-import { QuestionCard } from "@/modules/attempt/components/QuestionCard";
-import { NavControls } from "@/modules/attempt/components/NavControls";
-import { useQuizPlayer } from "@/modules/attempt/hooks/useQuizPlayer";
+import { ProgressBar } from "@/modules/attempt/player/components/ProgressBar";
+import { QuestionCard } from "@/modules/attempt/player/components/QuestionCard";
+import { NavControls } from "@/modules/attempt/player/components/NavControls";
+import { useQuizPlayer } from "@/modules/attempt/player/useQuizPlayer";
 
 export const QuizPlayerPage = () => {
   const player = useQuizPlayer();

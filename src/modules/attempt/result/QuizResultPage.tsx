@@ -3,9 +3,9 @@ import { LuHouse, LuRotateCcw } from "react-icons/lu";
 import { Button } from "@/components/button/Button";
 import { ErrorView } from "@/components/feedback/ErrorView";
 import { LoadingView } from "@/components/feedback/LoadingView";
-import { ResultSummary } from "@/modules/attempt/components/ResultSummary";
-import { AntiCheatSummary } from "@/modules/attempt/components/AntiCheatSummary";
-import { useQuizResult } from "@/modules/attempt/hooks/useQuizResult";
+import { ResultSummary } from "@/modules/attempt/result/components/ResultSummary";
+import { AntiCheatSummary } from "@/modules/attempt/result/components/AntiCheatSummary";
+import { useQuizResult } from "@/modules/attempt/result/useQuizResult";
 
 export const QuizResultPage = () => {
   const result = useQuizResult();
