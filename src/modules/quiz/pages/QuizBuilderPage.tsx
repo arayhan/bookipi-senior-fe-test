@@ -1,48 +1,14 @@
-import { useState } from "react";
 import { LuSave } from "react-icons/lu";
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { Button } from "@/components/button/Button";
 import { Card, CardBody, CardHeader } from "@/components/card/Card";
-import { toast } from "@/components/toast/toast";
-import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
-import { useSaveQuizFlowMutation } from "@/modules/quiz/quiz.query";
-import { validateDraft } from "@/modules/quiz/quiz.schema";
 import { QuizMetadataForm } from "@/modules/quiz/components/QuizMetadataForm";
 import { QuestionList } from "@/modules/quiz/components/QuestionList";
 import { AddQuestionMenu } from "@/modules/quiz/components/AddQuestionMenu";
 import { SaveResultPanel } from "@/modules/quiz/components/SaveResultPanel";
+import { useQuizBuilder } from "@/modules/quiz/hooks/useQuizBuilder";
 
 export const QuizBuilderPage = () => {
-  const dispatch = useAppDispatch();
-  const draft = useAppSelector((s) => s.quizBuilder);
-  const saveMutation = useSaveQuizFlowMutation();
-  const [validationError, setValidationError] = useState<string | null>(null);
-
-  const handleSave = () => {
-    setValidationError(null);
-    const result = validateDraft(draft);
-    if (!result.success) {
-      const first = result.error.issues[0];
-      const msg = first?.message ?? "Please fix the form before saving.";
-      setValidationError(msg);
-      toast.error(msg);
-      return;
-    }
-    saveMutation.mutate(draft, {
-      onSuccess: (quiz) => {
-        toast.success(`Quiz "${quiz.title}" published`);
-      },
-    });
-  };
-
-  const handleReset = () => {
-    if (saveMutation.isPending) return;
-    dispatch(quizBuilderActions.resetDraft());
-    saveMutation.reset();
-    setValidationError(null);
-  };
-
-  const savedQuiz = saveMutation.data;
+  const builder = useQuizBuilder();
 
   return (
     <div className="flex flex-col gap-6">
@@ -55,18 +21,22 @@ export const QuizBuilderPage = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {savedQuiz && (
-            <Button variant="ghost" onClick={handleReset}>
+          {builder.savedQuiz && (
+            <Button variant="ghost" onClick={builder.reset}>
               Start a new quiz
             </Button>
           )}
-          <Button onClick={handleSave} loading={saveMutation.isPending} disabled={Boolean(savedQuiz)}>
+          <Button
+            onClick={builder.save}
+            loading={builder.isSaving}
+            disabled={Boolean(builder.savedQuiz)}
+          >
             <LuSave /> Save quiz
           </Button>
         </div>
       </header>
 
-      {savedQuiz && <SaveResultPanel quizId={savedQuiz.id} />}
+      {builder.savedQuiz && <SaveResultPanel quizId={builder.savedQuiz.id} />}
 
       <Card>
         <CardHeader>
@@ -80,12 +50,12 @@ export const QuizBuilderPage = () => {
       <section className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Questions</h2>
-          <span className="text-xs text-slate-500">{draft.questions.length} added</span>
+          <span className="text-xs text-slate-500">{builder.draft.questions.length} added</span>
         </div>
         <QuestionList />
         <AddQuestionMenu />
-        {validationError && (
-          <p className="text-sm text-rose-600">{validationError}</p>
+        {builder.validationError && (
+          <p className="text-sm text-rose-600">{builder.validationError}</p>
         )}
       </section>
     </div>
