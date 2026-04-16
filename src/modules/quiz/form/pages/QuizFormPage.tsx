@@ -1,14 +1,14 @@
 import { LuSave } from "react-icons/lu";
 import { Button } from "@/components/button/Button";
 import { Card, CardBody, CardHeader } from "@/components/card/Card";
-import { QuizMetadataForm } from "@/modules/quiz/components/QuizMetadataForm";
-import { QuestionList } from "@/modules/quiz/components/QuestionList";
-import { AddQuestionMenu } from "@/modules/quiz/components/AddQuestionMenu";
-import { SaveResultPanel } from "@/modules/quiz/components/SaveResultPanel";
-import { useCreateQuiz } from "@/modules/quiz/hooks/useCreateQuiz";
+import { QuizMetadataForm } from "@/modules/quiz/form/components/QuizMetadataForm";
+import { QuestionList } from "@/modules/quiz/form/components/QuestionList";
+import { AddQuestionMenu } from "@/modules/quiz/form/components/AddQuestionMenu";
+import { SaveResultPanel } from "@/modules/quiz/form/components/SaveResultPanel";
+import { useQuizForm } from "@/modules/quiz/form/hooks/useQuizForm";
 
-export const CreateQuizPage = () => {
-  const createQuiz = useCreateQuiz();
+export const QuizFormPage = () => {
+  const quizForm = useQuizForm();
 
   return (
     <div className="flex flex-col gap-6">
@@ -21,22 +21,22 @@ export const CreateQuizPage = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {createQuiz.savedQuiz && (
-            <Button variant="ghost" onClick={createQuiz.reset}>
+          {quizForm.savedQuiz && (
+            <Button variant="ghost" onClick={quizForm.reset}>
               Start a new quiz
             </Button>
           )}
           <Button
-            onClick={createQuiz.save}
-            loading={createQuiz.isSaving}
-            disabled={Boolean(createQuiz.savedQuiz)}
+            onClick={quizForm.save}
+            loading={quizForm.isSaving}
+            disabled={Boolean(quizForm.savedQuiz)}
           >
             <LuSave /> Save quiz
           </Button>
         </div>
       </header>
 
-      {createQuiz.savedQuiz && <SaveResultPanel quizId={createQuiz.savedQuiz.id} />}
+      {quizForm.savedQuiz && <SaveResultPanel quizId={quizForm.savedQuiz.id} />}
 
       <Card>
         <CardHeader>
@@ -50,12 +50,12 @@ export const CreateQuizPage = () => {
       <section className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Questions</h2>
-          <span className="text-xs text-slate-500">{createQuiz.draft.questions.length} added</span>
+          <span className="text-xs text-slate-500">{quizForm.draft.questions.length} added</span>
         </div>
         <QuestionList />
         <AddQuestionMenu />
-        {createQuiz.validationError && (
-          <p className="text-sm text-rose-600">{createQuiz.validationError}</p>
+        {quizForm.validationError && (
+          <p className="text-sm text-rose-600">{quizForm.validationError}</p>
         )}
       </section>
     </div>
