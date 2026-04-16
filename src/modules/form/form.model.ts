@@ -1,5 +1,6 @@
 export interface DraftMcqQuestion {
   localId: string;
+  serverId?: number;
   type: "mcq";
   prompt: string;
   codeSnippet: string;
@@ -9,6 +10,7 @@ export interface DraftMcqQuestion {
 
 export interface DraftShortQuestion {
   localId: string;
+  serverId?: number;
   type: "short";
   prompt: string;
   codeSnippet: string;

@@ -29,6 +29,7 @@ const toDraftQuestion = (q: Question): DraftQuestion => {
   const { text, code } = parsePrompt(q.prompt);
   const base = {
     localId: nanoid(),
+    serverId: q.id,
     prompt: text,
     codeSnippet: code ?? "",
   };
