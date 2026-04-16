@@ -1,5 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addQuestion, createQuiz, getQuiz, publishQuiz } from "@/modules/quiz/quiz.service";
+import {
+  addQuestion,
+  createQuiz,
+  getQuiz,
+  listQuizzes,
+  publishQuiz,
+} from "@/modules/quiz/quiz.service";
 import { quizKeys } from "@/modules/quiz/quiz.keys";
 import type { BuilderDraft, CreateQuestionPayload, Quiz } from "@/modules/quiz/quiz.model";
 
@@ -46,4 +52,10 @@ export const useGetQuizQuery = (quizId: number | string | undefined) =>
     queryKey: quizId ? quizKeys.detail(quizId) : quizKeys.detail("none"),
     queryFn: () => getQuiz(quizId as number | string),
     enabled: Boolean(quizId),
+  });
+
+export const useListQuizzesQuery = () =>
+  useQuery({
+    queryKey: quizKeys.list(),
+    queryFn: listQuizzes,
   });

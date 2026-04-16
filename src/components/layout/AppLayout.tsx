@@ -11,7 +11,6 @@ export const AppLayout = () => (
         </Link>
         <nav className="flex items-center gap-4 text-sm text-slate-600">
           <Link to="/builder" className="hover:text-brand-700">Create</Link>
-          <Link to="/play" className="hover:text-brand-700">Take</Link>
         </nav>
       </div>
     </header>

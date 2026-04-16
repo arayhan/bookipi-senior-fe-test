@@ -6,6 +6,11 @@ import type {
   Quiz,
 } from "@/modules/quiz/quiz.model";
 
+export const listQuizzes = async (): Promise<Quiz[]> => {
+  const { data } = await apiClient.get<Quiz[]>("/quizzes");
+  return data;
+};
+
 export const createQuiz = async (payload: CreateQuizPayload): Promise<Quiz> => {
   const { data } = await apiClient.post<Quiz>("/quizzes", payload);
   return data;
