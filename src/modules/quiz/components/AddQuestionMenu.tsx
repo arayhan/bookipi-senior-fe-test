@@ -1,6 +1,6 @@
 import { LuListChecks, LuType } from "react-icons/lu";
 import { Button } from "@/components/button/Button";
-import { useAppDispatch } from "@/app/hooks";
+import { useAppDispatch } from "@/hooks/redux";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
 
 export const AddQuestionMenu = () => {

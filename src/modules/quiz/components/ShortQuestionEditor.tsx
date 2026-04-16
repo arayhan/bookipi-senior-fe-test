@@ -1,5 +1,5 @@
 import { TextField } from "@/components/text-field/TextField";
-import { useAppDispatch } from "@/app/hooks";
+import { useAppDispatch } from "@/hooks/redux";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
 import type { DraftShortQuestion } from "@/modules/quiz/quiz.model";
 

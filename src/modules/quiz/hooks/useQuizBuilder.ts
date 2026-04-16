@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { toast } from "@/components/toast/toast";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
 import { useSaveQuizFlowMutation } from "@/modules/quiz/quiz.query";

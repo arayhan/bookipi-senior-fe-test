@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { useAppDispatch } from "@/app/hooks";
+import { useAppDispatch } from "@/hooks/redux";
 import { attemptActions } from "@/modules/attempt/attempt.slice";
 import { usePostEventMutation } from "@/modules/attempt/attempt.query";
 

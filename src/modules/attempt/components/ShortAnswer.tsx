@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { attemptActions } from "@/modules/attempt/attempt.slice";
 import { TextField } from "@/components/text-field/TextField";
 import type { PlayerQuestion } from "@/modules/attempt/attempt.model";

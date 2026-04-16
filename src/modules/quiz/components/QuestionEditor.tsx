@@ -1,5 +1,5 @@
 import { LuArrowDown, LuArrowUp, LuTrash2 } from "react-icons/lu";
-import { useAppDispatch } from "@/app/hooks";
+import { useAppDispatch } from "@/hooks/redux";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
 import { Card, CardBody, CardHeader } from "@/components/card/Card";
 import { Button } from "@/components/button/Button";

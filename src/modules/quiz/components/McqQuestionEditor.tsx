@@ -1,7 +1,7 @@
 import { LuPlus, LuX } from "react-icons/lu";
 import { Button } from "@/components/button/Button";
 import { TextField } from "@/components/text-field/TextField";
-import { useAppDispatch } from "@/app/hooks";
+import { useAppDispatch } from "@/hooks/redux";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
 import type { DraftMcqQuestion } from "@/modules/quiz/quiz.model";
 

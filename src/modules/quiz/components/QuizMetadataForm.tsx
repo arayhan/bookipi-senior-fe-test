@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
 import { TextField } from "@/components/text-field/TextField";
 import { TextArea } from "@/components/text-area/TextArea";
