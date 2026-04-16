@@ -23,7 +23,7 @@ export const ResultSummary = ({ result, questions, answers }: Props) => {
   const total = result.details.length;
   return (
     <div className="flex flex-col gap-4">
-      <Card className="bg-gradient-to-br from-brand-50 to-white">
+      <Card className="bg-linear-to-br from-brand-50 to-white">
         <CardBody className="flex flex-col items-center gap-1 py-8">
           <span className="text-sm uppercase tracking-wide text-brand-700">Your score</span>
           <span className="text-5xl font-semibold text-slate-900">

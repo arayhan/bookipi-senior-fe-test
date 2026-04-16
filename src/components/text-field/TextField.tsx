@@ -22,7 +22,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           id={inputId}
           className={cn(
             "h-10 rounded-md border border-slate-300 bg-white px-3 text-sm",
-            "focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20",
+            "focus:border-brand-500 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20",
             error && "border-rose-400 focus:border-rose-500 focus:ring-rose-500/20",
             className,
           )}

@@ -24,7 +24,7 @@ export const SaveResultPanel = ({ quizId }: Props) => {
           Quiz published. Share the ID below to let someone take it.
         </p>
         <div className="flex flex-wrap items-center gap-3">
-          <code className="rounded bg-white px-3 py-2 font-mono text-base text-slate-900 border border-emerald-200">
+          <code className="rounded-sm bg-white px-3 py-2 font-mono text-base text-slate-900 border border-emerald-200">
             {quizId}
           </code>
           <Button variant="secondary" size="sm" onClick={copyId}>

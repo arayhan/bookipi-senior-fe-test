@@ -14,7 +14,7 @@ export const QuizCard = ({ quiz }: Props) => {
   const inner = (
     <CardBody className="flex h-full flex-col gap-3">
       <div className="flex items-start justify-between gap-2">
-        <LuFileText className="mt-1 flex-shrink-0 text-brand-600" size={20} />
+        <LuFileText className="mt-1 shrink-0 text-brand-600" size={20} />
         <span
           className={cn(
             "rounded-full px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide",
