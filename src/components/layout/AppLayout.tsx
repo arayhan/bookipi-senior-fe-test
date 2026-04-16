@@ -9,9 +9,6 @@ export const AppLayout = () => (
           <LuBrainCircuit className="text-brand-600" size={22} />
           <span>Quiz Maker</span>
         </Link>
-        <nav className="flex items-center gap-4 text-sm text-slate-600">
-          <Link to="/builder" className="hover:text-brand-700">Create</Link>
-        </nav>
       </div>
     </header>
     <main className="flex-1">
@@ -21,7 +18,7 @@ export const AppLayout = () => (
     </main>
     <footer className="border-t border-slate-200 bg-white py-4">
       <div className="mx-auto max-w-5xl px-6 text-xs text-slate-500">
-        Bookipi take-home — Quiz Maker
+        Arayhan - Bookipi take-home test - Quiz Maker
       </div>
     </footer>
   </div>
