@@ -1,35 +1,77 @@
 import { apiClient } from "@/services/api-client";
 import type {
-  CreateQuestionPayload,
-  CreateQuizPayload,
+  CreateQuestionRequest,
+  CreateQuizRequest,
   Question,
   Quiz,
 } from "@/modules/quiz/quiz.model";
 
-export const listQuizzes = async (): Promise<Quiz[]> => {
+type ListQuizzesResponse = Promise<Quiz[]>;
+const listQuizzesService = async (): ListQuizzesResponse => {
   const { data } = await apiClient.get<Quiz[]>("/quizzes");
   return data;
 };
 
-export const createQuiz = async (payload: CreateQuizPayload): Promise<Quiz> => {
-  const { data } = await apiClient.post<Quiz>("/quizzes", payload);
+type CreateQuizResponse = Promise<Quiz>;
+const createQuizService = async (request: CreateQuizRequest): CreateQuizResponse => {
+  const { data } = await apiClient.post<Quiz>("/quizzes", request);
   return data;
 };
 
-export const addQuestion = async (
-  quizId: number,
-  payload: CreateQuestionPayload,
-): Promise<Question> => {
-  const { data } = await apiClient.post<Question>(`/quizzes/${quizId}/questions`, payload);
+type GetQuizRequest = { id: number | string };
+type GetQuizResponse = Promise<Quiz & { questions: Question[] }>;
+const getQuizService = async ({ id }: GetQuizRequest): GetQuizResponse => {
+  const { data } = await apiClient.get<Quiz & { questions: Question[] }>(`/quizzes/${id}`);
   return data;
 };
 
-export const publishQuiz = async (quizId: number): Promise<Quiz> => {
-  const { data } = await apiClient.patch<Quiz>(`/quizzes/${quizId}`, { isPublished: true });
+type AddQuestionRequest = CreateQuestionRequest & { quizId: number };
+type AddQuestionResponse = Promise<Question>;
+const addQuestionService = async ({ quizId, ...rest }: AddQuestionRequest): AddQuestionResponse => {
+  const { data } = await apiClient.post<Question>(`/quizzes/${quizId}/questions`, rest);
   return data;
 };
 
-export const getQuiz = async (quizId: number | string): Promise<Quiz & { questions: Question[] }> => {
-  const { data } = await apiClient.get<Quiz & { questions: Question[] }>(`/quizzes/${quizId}`);
+type PublishQuizRequest = { id: number };
+type PublishQuizResponse = Promise<Quiz>;
+const publishQuizService = async ({ id }: PublishQuizRequest): PublishQuizResponse => {
+  const { data } = await apiClient.patch<Quiz>(`/quizzes/${id}`, { isPublished: true });
   return data;
+};
+
+type UpdateQuizRequest = { id: number } & Partial<CreateQuizRequest> & {
+  timeLimitSeconds?: number | null;
+  isPublished?: boolean;
+};
+type UpdateQuizResponse = Promise<Quiz>;
+const updateQuizService = async ({ id, ...patch }: UpdateQuizRequest): UpdateQuizResponse => {
+  const { data } = await apiClient.patch<Quiz>(`/quizzes/${id}`, patch);
+  return data;
+};
+
+type UpdateQuestionRequest = { id: number } & Partial<CreateQuestionRequest>;
+type UpdateQuestionResponse = Promise<Question>;
+const updateQuestionService = async ({
+  id,
+  ...patch
+}: UpdateQuestionRequest): UpdateQuestionResponse => {
+  const { data } = await apiClient.patch<Question>(`/questions/${id}`, patch);
+  return data;
+};
+
+type DeleteQuestionRequest = { id: number };
+type DeleteQuestionResponse = Promise<void>;
+const deleteQuestionService = async ({ id }: DeleteQuestionRequest): DeleteQuestionResponse => {
+  await apiClient.delete(`/questions/${id}`);
+};
+
+export const quizService = {
+  list: listQuizzesService,
+  create: createQuizService,
+  get: getQuizService,
+  addQuestion: addQuestionService,
+  publish: publishQuizService,
+  update: updateQuizService,
+  updateQuestion: updateQuestionService,
+  deleteQuestion: deleteQuestionService,
 };

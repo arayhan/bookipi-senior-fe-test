@@ -1,15 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  addQuestion,
-  createQuiz,
-  getQuiz,
-  listQuizzes,
-  publishQuiz,
-} from "@/modules/quiz/quiz.service";
+import { quizService } from "@/modules/quiz/quiz.service";
 import { quizKeys } from "@/modules/quiz/quiz.keys";
-import type { BuilderDraft, CreateQuestionPayload, Quiz } from "@/modules/quiz/quiz.model";
+import type { BuilderDraft, CreateQuestionRequest, Quiz } from "@/modules/quiz/quiz.model";
 
-const draftToQuestionPayloads = (draft: BuilderDraft): CreateQuestionPayload[] =>
+const draftToQuestionPayloads = (draft: BuilderDraft): CreateQuestionRequest[] =>
   draft.questions.map((q, index) => {
     if (q.type === "mcq") {
       const promptWithCode = q.codeSnippet.trim()
@@ -37,25 +31,27 @@ const draftToQuestionPayloads = (draft: BuilderDraft): CreateQuestionPayload[] =
 export const useSaveQuizFlowMutation = () =>
   useMutation<Quiz, Error, BuilderDraft>({
     mutationFn: async (draft) => {
-      const quiz = await createQuiz({ title: draft.title, description: draft.description });
+      const quiz = await quizService.create({
+        title: draft.title,
+        description: draft.description,
+      });
       const payloads = draftToQuestionPayloads(draft);
       for (const payload of payloads) {
-        await addQuestion(quiz.id, payload);
+        await quizService.addQuestion({ quizId: quiz.id, ...payload });
       }
-      const published = await publishQuiz(quiz.id);
-      return published;
+      return quizService.publish({ id: quiz.id });
     },
   });
 
 export const useGetQuizQuery = (quizId: number | string | undefined) =>
   useQuery({
     queryKey: quizId ? quizKeys.detail(quizId) : quizKeys.detail("none"),
-    queryFn: () => getQuiz(quizId as number | string),
+    queryFn: () => quizService.get({ id: quizId as number | string }),
     enabled: Boolean(quizId),
   });
 
 export const useListQuizzesQuery = () =>
   useQuery({
     queryKey: quizKeys.list(),
-    queryFn: listQuizzes,
+    queryFn: () => quizService.list(),
   });

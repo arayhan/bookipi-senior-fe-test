@@ -45,12 +45,12 @@ export interface BuilderDraft {
   questions: DraftQuestion[];
 }
 
-export interface CreateQuizPayload {
+export interface CreateQuizRequest {
   title: string;
   description: string;
 }
 
-export interface CreateQuestionPayload {
+export interface CreateQuestionRequest {
   type: QuestionType;
   prompt: string;
   options?: string[];
