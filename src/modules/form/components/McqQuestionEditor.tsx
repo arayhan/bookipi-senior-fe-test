@@ -2,7 +2,7 @@ import { LuPlus, LuX } from "react-icons/lu";
 import { Button } from "@/components/button/Button";
 import { TextField } from "@/components/text-field/TextField";
 import { useAppDispatch } from "@/hooks/redux";
-import { quizFormActions } from "@/modules/quiz/form/form.slice";
+import { quizFormActions } from "@/modules/form/form.slice";
 import type { DraftMcqQuestion } from "@/modules/quiz/quiz.model";
 
 interface Props {

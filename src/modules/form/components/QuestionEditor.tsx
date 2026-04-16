@@ -1,6 +1,6 @@
 import { LuArrowDown, LuArrowUp, LuTrash2 } from "react-icons/lu";
 import { useAppDispatch } from "@/hooks/redux";
-import { quizFormActions } from "@/modules/quiz/form/form.slice";
+import { quizFormActions } from "@/modules/form/form.slice";
 import { Card, CardBody, CardHeader } from "@/components/card/Card";
 import { Button } from "@/components/button/Button";
 import { TextArea } from "@/components/text-area/TextArea";

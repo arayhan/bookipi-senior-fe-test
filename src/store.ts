@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { quizFormReducer } from "@/modules/quiz/form/form.slice";
+import { quizFormReducer } from "@/modules/form/form.slice";
 import { attemptReducer } from "@/modules/attempt/attempt.slice";
 
 export const store = configureStore({

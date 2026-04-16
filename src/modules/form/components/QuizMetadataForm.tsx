@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { quizFormActions } from "@/modules/quiz/form/form.slice";
+import { quizFormActions } from "@/modules/form/form.slice";
 import { TextField } from "@/components/text-field/TextField";
 import { TextArea } from "@/components/text-area/TextArea";
 

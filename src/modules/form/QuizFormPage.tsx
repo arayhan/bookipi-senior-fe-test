@@ -3,11 +3,11 @@ import { Button } from "@/components/button/Button";
 import { Card, CardBody, CardHeader } from "@/components/card/Card";
 import { LoadingView } from "@/components/feedback/LoadingView";
 import { ErrorView } from "@/components/feedback/ErrorView";
-import { QuizMetadataForm } from "@/modules/quiz/form/components/QuizMetadataForm";
-import { QuestionList } from "@/modules/quiz/form/components/QuestionList";
-import { AddQuestionMenu } from "@/modules/quiz/form/components/AddQuestionMenu";
-import { SaveResultPanel } from "@/modules/quiz/form/components/SaveResultPanel";
-import { useQuizForm } from "@/modules/quiz/form/hooks/useQuizForm";
+import { QuizMetadataForm } from "@/modules/form/components/QuizMetadataForm";
+import { QuestionList } from "@/modules/form/components/QuestionList";
+import { AddQuestionMenu } from "@/modules/form/components/AddQuestionMenu";
+import { SaveResultPanel } from "@/modules/form/components/SaveResultPanel";
+import { useQuizForm } from "@/modules/form/useQuizForm";
 
 export const QuizFormPage = () => {
   const quizForm = useQuizForm();

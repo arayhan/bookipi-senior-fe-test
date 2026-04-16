@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { toast } from "@/components/toast/toast";
-import { quizFormActions } from "@/modules/quiz/form/form.slice";
-import { validateDraft } from "@/modules/quiz/form/form.schema";
+import { quizFormActions } from "@/modules/form/form.slice";
+import { validateDraft } from "@/modules/form/form.schema";
 import {
   useGetQuizQuery,
   useSaveQuizFlowMutation,
