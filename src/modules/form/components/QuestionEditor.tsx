@@ -4,7 +4,7 @@ import { quizFormActions } from "@/modules/form/form.slice";
 import { Card, CardBody, CardHeader } from "@/components/card/Card";
 import { Button } from "@/components/button/Button";
 import { TextArea } from "@/components/text-area/TextArea";
-import type { DraftQuestion } from "@/modules/quiz/quiz.model";
+import type { DraftQuestion } from "@/modules/form/form.model";
 import { McqQuestionEditor } from "./McqQuestionEditor";
 import { ShortQuestionEditor } from "./ShortQuestionEditor";
 

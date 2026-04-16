@@ -4,10 +4,8 @@ import type {
   DraftMcqQuestion,
   DraftQuestion,
   DraftShortQuestion,
-  Question,
-  QuestionType,
-  Quiz,
-} from "@/modules/quiz/quiz.model";
+} from "@/modules/form/form.model";
+import type { Question, QuestionType, Quiz } from "@/modules/quiz/quiz.model";
 import { parsePrompt } from "@/modules/attempt/utils/parsePrompt";
 
 const makeMcq = (): DraftQuestion => ({

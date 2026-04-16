@@ -3,7 +3,7 @@ import { Button } from "@/components/button/Button";
 import { TextField } from "@/components/text-field/TextField";
 import { useAppDispatch } from "@/hooks/redux";
 import { quizFormActions } from "@/modules/form/form.slice";
-import type { DraftMcqQuestion } from "@/modules/quiz/quiz.model";
+import type { DraftMcqQuestion } from "@/modules/form/form.model";
 
 interface Props {
   question: DraftMcqQuestion;

@@ -4,11 +4,11 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { toast } from "@/components/toast/toast";
 import { quizFormActions } from "@/modules/form/form.slice";
 import { validateDraft } from "@/modules/form/form.schema";
+import { useGetQuizQuery } from "@/modules/quiz/quiz.query";
 import {
-  useGetQuizQuery,
   useSaveQuizFlowMutation,
   useUpdateQuizFlowMutation,
-} from "@/modules/quiz/quiz.query";
+} from "@/modules/form/form.query";
 
 export const useQuizForm = () => {
   const { id } = useParams<{ id: string }>();

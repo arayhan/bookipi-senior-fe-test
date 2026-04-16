@@ -1,7 +1,7 @@
 import { TextField } from "@/components/text-field/TextField";
 import { useAppDispatch } from "@/hooks/redux";
 import { quizFormActions } from "@/modules/form/form.slice";
-import type { DraftShortQuestion } from "@/modules/quiz/quiz.model";
+import type { DraftShortQuestion } from "@/modules/form/form.model";
 
 interface Props {
   question: DraftShortQuestion;

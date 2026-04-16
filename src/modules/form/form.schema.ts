@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { BuilderDraft } from "@/modules/quiz/quiz.model";
+import type { BuilderDraft } from "@/modules/form/form.model";
 
 const mcqSchema = z.object({
   type: z.literal("mcq"),
