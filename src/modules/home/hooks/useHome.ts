@@ -17,5 +17,7 @@ export const useHome = () => {
     navigate(`/play/${trimmed}`);
   };
 
-  return { quizId, setQuizId, error, submit };
+  return {
+    playQuizById: { quizId, setQuizId, error, submit },
+  };
 };

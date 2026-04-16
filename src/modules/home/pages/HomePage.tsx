@@ -18,14 +18,14 @@ export const HomePage = () => {
           </p>
         </div>
         <div className="flex flex-wrap items-start gap-3">
-          <form onSubmit={home.submit} className="flex items-start gap-2">
+          <form onSubmit={home.playQuizById.submit} className="flex items-start gap-2">
             <TextField
               aria-label="Quiz ID"
               placeholder="Enter quiz ID"
-              value={home.quizId}
-              onChange={(e) => home.setQuizId(e.target.value)}
+              value={home.playQuizById.quizId}
+              onChange={(e) => home.playQuizById.setQuizId(e.target.value)}
               inputMode="numeric"
-              error={home.error ?? undefined}
+              error={home.playQuizById.error ?? undefined}
               className="w-40"
             />
             <Button type="submit" variant="secondary">
