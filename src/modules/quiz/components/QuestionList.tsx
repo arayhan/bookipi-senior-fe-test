@@ -2,7 +2,7 @@ import { useAppSelector } from "@/hooks/redux";
 import { QuestionEditor } from "./QuestionEditor";
 
 export const QuestionList = () => {
-  const questions = useAppSelector((s) => s.quizBuilder.questions);
+  const questions = useAppSelector((s) => s.createQuiz.questions);
 
   if (questions.length === 0) {
     return (

@@ -1,6 +1,6 @@
 import { LuArrowDown, LuArrowUp, LuTrash2 } from "react-icons/lu";
 import { useAppDispatch } from "@/hooks/redux";
-import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
+import { createQuizActions } from "@/modules/quiz/quiz.slice";
 import { Card, CardBody, CardHeader } from "@/components/card/Card";
 import { Button } from "@/components/button/Button";
 import { TextArea } from "@/components/text-area/TextArea";
@@ -18,7 +18,7 @@ export const QuestionEditor = ({ question, index, total }: Props) => {
   const dispatch = useAppDispatch();
 
   const update = (patch: Partial<DraftQuestion>) =>
-    dispatch(quizBuilderActions.updateQuestion({ localId: question.localId, patch }));
+    dispatch(createQuizActions.updateQuestion({ localId: question.localId, patch }));
 
   const typeLabel = question.type === "mcq" ? "Multiple Choice" : "Short Answer";
 
@@ -38,7 +38,7 @@ export const QuestionEditor = ({ question, index, total }: Props) => {
             variant="ghost"
             size="sm"
             onClick={() =>
-              dispatch(quizBuilderActions.moveQuestion({ localId: question.localId, direction: "up" }))
+              dispatch(createQuizActions.moveQuestion({ localId: question.localId, direction: "up" }))
             }
             disabled={index === 0}
             aria-label="Move up"
@@ -49,7 +49,7 @@ export const QuestionEditor = ({ question, index, total }: Props) => {
             variant="ghost"
             size="sm"
             onClick={() =>
-              dispatch(quizBuilderActions.moveQuestion({ localId: question.localId, direction: "down" }))
+              dispatch(createQuizActions.moveQuestion({ localId: question.localId, direction: "down" }))
             }
             disabled={index === total - 1}
             aria-label="Move down"
@@ -59,7 +59,7 @@ export const QuestionEditor = ({ question, index, total }: Props) => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => dispatch(quizBuilderActions.removeQuestion(question.localId))}
+            onClick={() => dispatch(createQuizActions.removeQuestion(question.localId))}
             aria-label="Delete question"
           >
             <LuTrash2 className="text-rose-600" />

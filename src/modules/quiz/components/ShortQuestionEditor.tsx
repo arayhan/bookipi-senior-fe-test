@@ -1,6 +1,6 @@
 import { TextField } from "@/components/text-field/TextField";
 import { useAppDispatch } from "@/hooks/redux";
-import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
+import { createQuizActions } from "@/modules/quiz/quiz.slice";
 import type { DraftShortQuestion } from "@/modules/quiz/quiz.model";
 
 interface Props {
@@ -11,7 +11,7 @@ export const ShortQuestionEditor = ({ question }: Props) => {
   const dispatch = useAppDispatch();
 
   const update = (patch: Partial<DraftShortQuestion>) =>
-    dispatch(quizBuilderActions.updateQuestion({ localId: question.localId, patch }));
+    dispatch(createQuizActions.updateQuestion({ localId: question.localId, patch }));
 
   return (
     <div className="flex flex-col gap-3">

@@ -106,8 +106,8 @@ What I deliberately did **not** do: detect dev-tools open, blur signals on each 
 
 | Path | Page |
 | --- | --- |
-| `/` | Home — entry cards for Builder and Player |
-| `/builder` | Quiz Builder |
+| `/` | Home — entry cards for Create Quiz and Player |
+| `/create-quiz` | Create Quiz |
 | `/play` | Quiz ID input |
 | `/play/:quizId` | Quiz Player |
 | `/play/:quizId/result/:attemptId` | Result page |

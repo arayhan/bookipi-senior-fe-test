@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { quizBuilderReducer } from "@/modules/quiz/quiz.slice";
+import { createQuizReducer } from "@/modules/quiz/quiz.slice";
 import { attemptReducer } from "@/modules/attempt/attempt.slice";
 
 export const store = configureStore({
   reducer: {
-    quizBuilder: quizBuilderReducer,
+    createQuiz: createQuizReducer,
     attempt: attemptReducer,
   },
 });

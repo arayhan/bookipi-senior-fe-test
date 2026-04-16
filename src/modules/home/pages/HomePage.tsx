@@ -32,7 +32,7 @@ export const HomePage = () => {
               Go <LuArrowRight />
             </Button>
           </form>
-          <Link to="/builder">
+          <Link to="/create-quiz">
             <Button>
               <LuPlus /> Create quiz
             </Button>

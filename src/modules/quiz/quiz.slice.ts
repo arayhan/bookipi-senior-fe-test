@@ -24,8 +24,8 @@ const initialState: BuilderDraft = {
   questions: [],
 };
 
-const quizBuilderSlice = createSlice({
-  name: "quizBuilder",
+const createQuizSlice = createSlice({
+  name: "createQuiz",
   initialState,
   reducers: {
     setTitle(state, action: PayloadAction<string>) {
@@ -63,5 +63,5 @@ const quizBuilderSlice = createSlice({
   },
 });
 
-export const quizBuilderActions = quizBuilderSlice.actions;
-export const quizBuilderReducer = quizBuilderSlice.reducer;
+export const createQuizActions = createQuizSlice.actions;
+export const createQuizReducer = createQuizSlice.reducer;

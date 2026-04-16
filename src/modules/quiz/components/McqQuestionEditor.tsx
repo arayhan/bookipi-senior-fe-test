@@ -2,7 +2,7 @@ import { LuPlus, LuX } from "react-icons/lu";
 import { Button } from "@/components/button/Button";
 import { TextField } from "@/components/text-field/TextField";
 import { useAppDispatch } from "@/hooks/redux";
-import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
+import { createQuizActions } from "@/modules/quiz/quiz.slice";
 import type { DraftMcqQuestion } from "@/modules/quiz/quiz.model";
 
 interface Props {
@@ -13,7 +13,7 @@ export const McqQuestionEditor = ({ question }: Props) => {
   const dispatch = useAppDispatch();
 
   const update = (patch: Partial<DraftMcqQuestion>) =>
-    dispatch(quizBuilderActions.updateQuestion({ localId: question.localId, patch }));
+    dispatch(createQuizActions.updateQuestion({ localId: question.localId, patch }));
 
   const setOption = (index: number, value: string) => {
     const next = [...question.options];

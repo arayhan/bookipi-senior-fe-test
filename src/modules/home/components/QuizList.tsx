@@ -36,7 +36,7 @@ export const QuizList = () => {
             Create your first quiz and it will show up here.
           </p>
         </div>
-        <Link to="/builder">
+        <Link to="/create-quiz">
           <Button>
             <LuPlus /> Create quiz
           </Button>

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { toast } from "@/components/toast/toast";
-import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
+import { createQuizActions } from "@/modules/quiz/quiz.slice";
 import { useSaveQuizFlowMutation } from "@/modules/quiz/quiz.query";
 import { validateDraft } from "@/modules/quiz/quiz.schema";
 
-export const useQuizBuilder = () => {
+export const useCreateQuiz = () => {
   const dispatch = useAppDispatch();
-  const draft = useAppSelector((s) => s.quizBuilder);
+  const draft = useAppSelector((s) => s.createQuiz);
   const saveMutation = useSaveQuizFlowMutation();
   const [validationError, setValidationError] = useState<string | null>(null);
 
@@ -30,7 +30,7 @@ export const useQuizBuilder = () => {
 
   const reset = () => {
     if (saveMutation.isPending) return;
-    dispatch(quizBuilderActions.resetDraft());
+    dispatch(createQuizActions.resetDraft());
     saveMutation.reset();
     setValidationError(null);
   };
