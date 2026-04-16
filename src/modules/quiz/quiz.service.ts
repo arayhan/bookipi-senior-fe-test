@@ -1,10 +1,5 @@
 import { apiClient } from "@/services/api-client";
-import type {
-  CreateQuestionRequest,
-  CreateQuizRequest,
-  Question,
-  Quiz,
-} from "@/modules/quiz/quiz.model";
+import type { Question, QuestionType, Quiz } from "@/modules/quiz/quiz.model";
 
 type ListQuizzesResponse = Promise<Quiz[]>;
 const listQuizzesService = async (): ListQuizzesResponse => {
@@ -12,6 +7,7 @@ const listQuizzesService = async (): ListQuizzesResponse => {
   return data;
 };
 
+type CreateQuizRequest = { title: string; description: string };
 type CreateQuizResponse = Promise<Quiz>;
 const createQuizService = async (request: CreateQuizRequest): CreateQuizResponse => {
   const { data } = await apiClient.post<Quiz>("/quizzes", request);
@@ -25,6 +21,13 @@ const getQuizService = async ({ id }: GetQuizRequest): GetQuizResponse => {
   return data;
 };
 
+type CreateQuestionRequest = {
+  type: QuestionType;
+  prompt: string;
+  options?: string[];
+  correctAnswer: string | number;
+  position?: number;
+};
 type AddQuestionRequest = CreateQuestionRequest & { quizId: number };
 type AddQuestionResponse = Promise<Question>;
 const addQuestionService = async ({ quizId, ...rest }: AddQuestionRequest): AddQuestionResponse => {
