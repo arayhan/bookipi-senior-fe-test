@@ -1,4 +1,4 @@
-import { Card, CardBody } from "@/components/ui/Card";
+import { Card, CardBody } from "@/components/card/Card";
 import { CodeBlock } from "@/components/code/CodeBlock";
 import { parsePrompt } from "@/modules/attempt/utils/parsePrompt";
 import type { PlayerQuestion } from "@/modules/attempt/attempt.model";

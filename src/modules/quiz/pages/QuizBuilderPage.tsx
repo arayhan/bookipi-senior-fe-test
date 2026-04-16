@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { LuSave } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { Button } from "@/components/ui/Button";
-import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import { Button } from "@/components/button/Button";
+import { Card, CardBody, CardHeader } from "@/components/card/Card";
 import { toast } from "@/components/toast/toast";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
 import { useSaveQuizFlowMutation } from "@/modules/quiz/quiz.query";

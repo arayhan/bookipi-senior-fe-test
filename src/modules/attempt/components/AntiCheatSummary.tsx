@@ -1,5 +1,5 @@
 import { LuShieldAlert } from "react-icons/lu";
-import { Card, CardBody } from "@/components/ui/Card";
+import { Card, CardBody } from "@/components/card/Card";
 
 interface Props {
   tabSwitches: number;

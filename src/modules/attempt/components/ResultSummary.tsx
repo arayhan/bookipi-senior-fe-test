@@ -1,5 +1,5 @@
 import { LuCheck, LuX } from "react-icons/lu";
-import { Card, CardBody } from "@/components/ui/Card";
+import { Card, CardBody } from "@/components/card/Card";
 import { parsePrompt } from "@/modules/attempt/utils/parsePrompt";
 import type { PlayerQuestion } from "@/modules/attempt/attempt.model";
 import type { SubmitResult } from "@/modules/attempt/attempt.model";

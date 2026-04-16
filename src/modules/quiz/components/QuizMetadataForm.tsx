@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
-import { TextField } from "@/components/ui/TextField";
-import { TextArea } from "@/components/ui/TextArea";
+import { TextField } from "@/components/text-field/TextField";
+import { TextArea } from "@/components/text-area/TextArea";
 
 export const QuizMetadataForm = () => {
   const dispatch = useAppDispatch();

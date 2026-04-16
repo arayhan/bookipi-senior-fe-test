@@ -1,5 +1,5 @@
 import { LuArrowLeft, LuArrowRight, LuCheck } from "react-icons/lu";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/button/Button";
 
 interface Props {
   index: number;

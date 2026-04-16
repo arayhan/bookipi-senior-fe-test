@@ -1,5 +1,5 @@
 import { LuTriangleAlert } from "react-icons/lu";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/button/Button";
 
 interface ErrorViewProps {
   title?: string;

@@ -1,9 +1,9 @@
 import { LuArrowDown, LuArrowUp, LuTrash2 } from "react-icons/lu";
 import { useAppDispatch } from "@/app/hooks";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
-import { Card, CardBody, CardHeader } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { TextArea } from "@/components/ui/TextArea";
+import { Card, CardBody, CardHeader } from "@/components/card/Card";
+import { Button } from "@/components/button/Button";
+import { TextArea } from "@/components/text-area/TextArea";
 import type { DraftQuestion } from "@/modules/quiz/quiz.model";
 import { McqQuestionEditor } from "./McqQuestionEditor";
 import { ShortQuestionEditor } from "./ShortQuestionEditor";

@@ -1,5 +1,5 @@
 import { LuListChecks, LuType } from "react-icons/lu";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/button/Button";
 import { useAppDispatch } from "@/app/hooks";
 import { quizBuilderActions } from "@/modules/quiz/quiz.slice";
 

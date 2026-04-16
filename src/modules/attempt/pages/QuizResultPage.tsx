@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { LuHouse, LuRotateCcw } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/button/Button";
 import { ErrorView } from "@/components/feedback/ErrorView";
 import { LoadingView } from "@/components/feedback/LoadingView";
 import { useGetQuizQuery } from "@/modules/quiz/quiz.query";

@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { LuArrowRight } from "react-icons/lu";
-import { TextField } from "@/components/ui/TextField";
-import { Button } from "@/components/ui/Button";
-import { Card, CardBody } from "@/components/ui/Card";
+import { TextField } from "@/components/text-field/TextField";
+import { Button } from "@/components/button/Button";
+import { Card, CardBody } from "@/components/card/Card";
 
 export const QuizIdEntry = () => {
   const navigate = useNavigate();

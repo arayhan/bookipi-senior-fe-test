@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { LuPencilLine, LuPlay } from "react-icons/lu";
-import { Card, CardBody } from "@/components/ui/Card";
+import { Card, CardBody } from "@/components/card/Card";
 
 export const HomePage = () => (
   <div className="flex flex-col gap-8">

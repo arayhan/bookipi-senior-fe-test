@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { LuCheck, LuCopy } from "react-icons/lu";
-import { Card, CardBody } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { Card, CardBody } from "@/components/card/Card";
+import { Button } from "@/components/button/Button";
 
 interface Props {
   quizId: number;
