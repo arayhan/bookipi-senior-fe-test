@@ -8,13 +8,16 @@ export const useHome = () => {
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const trimmed = quizId.trim();
-    if (!/^\d+$/.test(trimmed)) {
+
+    const trimmedQuizId = quizId.trim();
+
+    if (!/^\d+$/.test(trimmedQuizId)) {
       setError("Quiz ID must be a number.");
       return;
     }
+
     setError(null);
-    navigate(`/play/${trimmed}`);
+    navigate(`/play/${trimmedQuizId}`);
   };
 
   return {
