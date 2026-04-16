@@ -3,7 +3,7 @@ import { LuArrowRight, LuPlus } from "react-icons/lu";
 import { Button } from "@/components/button/Button";
 import { TextField } from "@/components/text-field/TextField";
 import { QuizList } from "@/modules/home/components/QuizList";
-import { useHome } from "@/modules/home/hooks/useHome";
+import { useHome } from "@/modules/home/useHome";
 
 export const HomePage = () => {
   const home = useHome();
