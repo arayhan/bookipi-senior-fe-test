@@ -9,7 +9,7 @@ export const useGetQuizQuery = (quizId: number | string | undefined) =>
     enabled: Boolean(quizId),
   });
 
-export const useListQuizzesQuery = () =>
+export const useGetQuizListQuery = () =>
   useQuery({
     queryKey: quizKeys.list(),
     queryFn: () => quizService.list(),

@@ -3,11 +3,11 @@ import { LuInbox, LuPlus } from "react-icons/lu";
 import { LoadingView } from "@/components/feedback/LoadingView";
 import { ErrorView } from "@/components/feedback/ErrorView";
 import { Button } from "@/components/button/Button";
-import { useListQuizzesQuery } from "@/modules/quiz/quiz.query";
+import { useGetQuizListQuery } from "@/modules/quiz/quiz.query";
 import { QuizCard } from "./QuizCard";
 
 export const QuizList = () => {
-  const { data, isLoading, isError, refetch } = useListQuizzesQuery();
+  const { data, isLoading, isError, refetch } = useGetQuizListQuery();
 
   if (isLoading) return <LoadingView label="Loading quizzes..." />;
   if (isError) {
